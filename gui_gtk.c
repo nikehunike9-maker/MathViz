@@ -403,6 +403,35 @@ static void on_speed_changed(GtkComboBox *combo, AppState *state) {
 }
 
 // ── Keyboard handler ──
+static void show_about(AppState *state) {
+    GtkWidget *d = gtk_about_dialog_new();
+    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(d), "MathViz");
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(d), "1.0.0");
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(d), "DSL 驱动的数学可视化平台\n\n语法设计者: kevion\nAI 生成项目，仅作娱乐与学习用途");
+    const char *authors[] = {"AI (Codeium/DeepSeek)", NULL};
+    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(d), authors);
+    gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(d), GTK_LICENSE_GPL_3_0);
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d), "https://github.com/nikehunike9-maker/MathViz");
+    gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(d), "GitHub");
+    const char *credits =
+        "本软件使用了以下开源项目：\n\n"
+        "GTK+3          GNU LGPL 2.1\n"
+        "Cairo          LGPL 2.1 / MPL 1.1\n"
+        "Pango          GNU LGPL 2.1\n"
+        "GLib           GNU LGPL 2.1\n"
+        "GDK-Pixbuf     GNU LGPL 2.1\n"
+        "ATK            GNU LGPL 2.1\n"
+        "FreeType       FTL / GPL 2.0\n"
+        "Fontconfig     MIT\n"
+        "HarfBuzz       MIT\n"
+        "libpng         libpng license\n"
+        "zlib           MIT\n\n"
+        "感谢以上所有项目的贡献者！";
+     gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(d), credits);
+    gtk_dialog_run(GTK_DIALOG(d));
+    gtk_widget_destroy(d);
+}
+
 static void show_shortcuts(AppState *state) {
     GtkWidget *d = gtk_message_dialog_new(GTK_WINDOW(state->window),
         GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
@@ -677,6 +706,8 @@ AppState* gui_create(GtkApplication *app) {
     GtkWidget *hi = gtk_menu_item_new_with_label("帮助");
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(hi), hm);
     ADD_MENU(hm, "快捷键",    show_shortcuts);
+    gtk_menu_shell_append(GTK_MENU_SHELL(hm), gtk_separator_menu_item_new());
+    ADD_MENU(hm, "关于",      show_about);
     gtk_menu_shell_append(GTK_MENU_SHELL(mb), hi);
 
     gtk_box_pack_start(GTK_BOX(vbox), mb, FALSE, FALSE, 0);

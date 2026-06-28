@@ -1,0 +1,16 @@
+MathViz
+语法设计者: kevion
+
+使用以下开源项目，特此鸣谢：
+
+GTK+3          https://www.gtk.org/                  GNU LGPL 2.1
+Cairo          https://www.cairographics.org/         LGPL 2.1 / MPL 1.1
+Pango                                               GNU LGPL 2.1
+GLib           https://docs.gtk.org/glib/             GNU LGPL 2.1
+GDK-Pixbuf     https://docs.gtk.org/gdk-pixbuf/       GNU LGPL 2.1
+ATK            https://docs.gtk.org/atk/              GNU LGPL 2.1
+FreeType       https://freetype.org/                  FTL / GPL 2.0
+Fontconfig     https://www.freedesktop.org/wiki/Software/fontconfig/ MIT
+HarfBuzz       https://harfbuzz.github.io/            MIT
+libpng         http://www.libpng.org/pub/png/         libpng license
+zlib           https://zlib.net/                      MIT
