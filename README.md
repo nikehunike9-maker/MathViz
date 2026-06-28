@@ -1,6 +1,6 @@
 # Math Visualization Platform
 
-> ⚠️ **免责声明**：本项目由 AI 生成，仅作娱乐和学习用途。
+> ⚠️ **免责声明**：本项目大部分由 deepseekV4-flash AI 生成，仅作娱乐和学习用途。
 > 代码质量、正确性、安全性未经充分验证，请勿用于任何严肃或生产环境。
 > 如有不足之处，欢迎友善讨论，请勿指责，谢谢！🙏
 
@@ -20,12 +20,12 @@ make
 ```bash
 git clone https://github.com/mxe/mxe.git
 cd mxe
-make gtk3          # 构建 GTK+3 及所有依赖 (约 1-2 小时)
+make gtk3          
 cd /path/to/mathviz
 make -f Makefile.cross MXE_DIR=/path/to/mxe
 ```
 
-输出: `mathviz.exe`（静态链接，单文件，约 20MB）
+输出: `mathviz.exe`（静态链接，单文件，约 20MB，没有编译不知道）
 
 ## DSL 示例
 
