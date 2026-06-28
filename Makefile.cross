@@ -1,0 +1,40 @@
+# Cross-compile for Windows (64-bit) using MXE
+# Setup:
+#   git clone https://github.com/mxe/mxe.git
+#   cd mxe && make gtk3
+#
+# Usage:
+#   make -f Makefile.cross MXE_DIR=/path/to/mxe
+
+MXE_DIR  ?= /opt/mxe
+CROSS    ?= $(MXE_DIR)/usr/bin/x86_64-w64-mingw32.static-
+CC        = $(CROSS)gcc
+WINDRES   = $(CROSS)windres
+CFLAGS   ?= -std=c99 -D_GNU_SOURCE -O2 -g -Wall -I. \
+            $(shell PKG_CONFIG_LIBDIR=$(MXE_DIR)/usr/x86_64-w64-mingw32.static/lib/pkgconfig \
+                    pkg-config --cflags gtk+-3.0 2>/dev/null)
+LDFLAGS  ?= -lm $(shell PKG_CONFIG_LIBDIR=$(MXE_DIR)/usr/x86_64-w64-mingw32.static/lib/pkgconfig \
+                    pkg-config --static --libs gtk+-3.0 2>/dev/null) -lole32 -lws2_32 -lgdi32
+OBJDIR    = obj-cross
+SRCS      = $(filter-out font.c text_renderer.c, $(wildcard *.c))
+OBJS      = $(patsubst %.c, $(OBJDIR)/%.o, $(SRCS)) $(OBJDIR)/mathviz.res
+TARGET    = mathviz.exe
+
+.PHONY: all clean
+
+all: $(OBJDIR) $(TARGET)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/mathviz.res: mathviz.rc | $(OBJDIR)
+	$(WINDRES) $< -O coff -o $@
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+clean:
+	rm -rf $(OBJDIR) $(TARGET)
